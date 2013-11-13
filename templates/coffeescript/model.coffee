@@ -1,5 +1,20 @@
-define ['<%= _.slugify(appname) %>'], (<%= _.classify(appname) %>) ->
-  class <%= _.classify(name) %>Model extends Backbone.Model
+### define
+app : app
+backbone : Backbone
+jquery : $
+underscore : _
+###
 
-  <%= _.classify(appname) %>.Models.<%= _.classify(name) %>Model = <%= _.classify(name) %>Model
-  return <%= _.classify(name) %>Model
+class <%= _.classify(name) %>Model extends Backbone.Model
+
+
+
+
+  class @Collection extends Backbone.Collection
+
+    model : <%= _.classify(name) %>Model
+
+
+
+
+

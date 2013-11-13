@@ -7,15 +7,33 @@ module.exports = Generator;
 
 function Generator() {
   generator.NamedBase.apply(this, arguments);
-  var dirPath = this.options.coffee ? '../templates/coffeescript/' : '../templates/javascript';
-  this.sourceRoot(path.join(__dirname, dirPath));
-  this.option('coffee', { desc: 'CoffeeScript instead standard JavaScript' });
+  this.sourceRoot(path.join(__dirname, '../templates/coffeescript/'));
+
+  this.prompt({
+    type: 'list',
+    name: 'viewType',
+    message: 'What kind of view do you want?',
+    choices: [
+      {'name':'HumanView', value:'human'},
+      {'name':'Backbone.View', value:'backbone'}
+    ],
+    default: 'backbone'
+
+  }, function (answers) {
+
+    this.viewType = answers.viewType;
+
+  });
 }
 
 util.inherits(Generator, generator.NamedBase);
 
 Generator.prototype.createViewFiles = function createViewFiles() {
-  // TODO: Add template
-  var ext = this.options.coffee ? 'coffee' : 'js';
-  this.template('view.' + ext, path.join('app/scripts/views', this.name + '.' + ext));
+
+  if (this.viewType == "human") {
+    this.template('view-human.coffee', path.join('app/scripts/views', this.name + '_view.coffee'));
+  } else {
+    this.template('view.coffee', path.join('app/scripts/views', this.name + '_view.coffee'));
+  }
+
 };
